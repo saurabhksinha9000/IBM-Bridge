@@ -1,0 +1,137 @@
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+	
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+
+  </head>
+  <body>
+      <div id="test">
+      </div>
+    <script type="text/javascript">
+        let url="https://ibm-bridge.eu-gb.mybluemix.net/email/";
+        fetch(url).then(response => response.json())
+        .then( (result) => {
+            console.log('success:', result);
+			var txt = "";
+			let data= (result.a);
+			
+			let length1= JSON.stringify(result.a.length);
+            let div=document.getElementById('test');
+			//data.forEach(function(value, key, data) {
+   // txt = txt + JSON.stringify(value) + "saurabh<br>";
+//});
+var html="<head><style>body {background-color:#302e2f;margin:0;}  th, td {  border: 1px solid black;}.tooltip .tooltiptext {  visibility: hidden;}.tooltip:hover .tooltiptext {  visibility: visible;}</style> </head>";
+html=html+"<body>  <img height='50px' width = '100%' src='https://texttosignlanguage.s3.jp-tok.cloud-object-storage.appdomain.cloud/heading.JPG' alt='Italian Trulli'><br>";
+html=html+"<table><tr><td height='730px'><div><img height='100%' width='50px' src='https://saurabhksinha.blob.core.windows.net/thumbnails/left_bar.JPG'></div></td><td valign='top'><div style='position: relative;  text-align: center;  color: black;'><div position: relative;text-align: top;color: white;><img height='100%' width = '100%' src='https://saurabhksinha.blob.core.windows.net/thumbnails/meeting1.JPG' alt='Italian Trulli'><div position: relative;top: 70%;  left: 46%; transform: translate(-50%, -50%); ><img src='https://saurabhksinha.blob.core.windows.net/thumbnails/tool.JPG'><a href='https://microsoftteams.azurewebsites.net/teams'><img height='105%' src='https://saurabhksinha.blob.core.windows.net/thumbnails/attentiveness.JPG'></a></div></div>";
+for (var i = 0;i < length1; i++)
+{
+var emotion="Neutral";
+if(Number(JSON.stringify(data[i].faceAttributes.emotion.happiness))>0.7)
+{
+emotion="Happiness";
+}
+else{
+emotion="Neutral";
+}
+html=html+"<div class='tooltip' style='position: absolute;  top: "+Number(JSON.stringify(data[i].faceRectangle.top))+"px;  left: "+Number(JSON.stringify(data[i].faceRectangle.left))+"px;height: "+Number(JSON.stringify(data[i].faceRectangle.height))+"px;  width: "+Number(JSON.stringify(data[i].faceRectangle.width))+"px;  border: 2px solid blue;';><span class='tooltiptext' style=' font-size: 12px;background-color:grey;color:white'> EMOTION:	"+emotion+"</span></div>";
+}
+html=html+"</div></td><td bgcolor='white' height='730px' valign='top'><p style='font-size:12px;'><pre><b><br> No. of Attendees</b>: "+length1+"<br><br>"; 
+var level=0;
+for (var i = 0;i < length1; i++)
+{
+level=level+Number(JSON.stringify(data[i].faceAttributes.smile));
+}
+html=html+"<b> Attentiveness Level</b>: "+(Math.round((level/length1)*100000)/100000)+"<br> <progress id='file' value='"+(Math.round((level/length1)*100000)/100000)+"' min='0' max='1'> </progress><br><br>";
+var anger_level=0;
+for (var i = 0;i < length1; i++)
+{
+anger_level=anger_level+Number(JSON.stringify(data[i].faceAttributes.emotion.anger));
+}
+html=html+"<b> Angerness Level</b>: "+(Math.round((anger_level/length1)*100000)/100000)+"<br> <progress id='file' value='"+(Math.round((anger_level/length1)*100000)/100000)+"' min='0' max='1'> </progress><br><br>";
+var contempt_level=0;
+for (var i = 0;i < length1; i++)
+{
+contempt_level=contempt_level+Number(JSON.stringify(data[i].faceAttributes.emotion.contempt));
+}
+html=html+"<b> Contempt Level</b>: "+(Math.round((contempt_level/length1)*100000)/100000)+"<br> <progress id='file' value='"+(Math.round((contempt_level/length1)*100000)/100000)+"' min='0' max='1'> </progress><br><br>";
+var disgust_level=0;
+for (var i = 0;i < length1; i++)
+{
+disgust_level=disgust_level+Number(JSON.stringify(data[i].faceAttributes.emotion.disgust));
+}
+html=html+"<b> Disgust Level</b>: "+(Math.round((disgust_level/length1)*100000)/100000)+"<br> <progress id='file' value='"+(Math.round((disgust_level/length1)*100000)/100000)+"' min='0' max='1'> </progress><br><br>";
+var fear_level=0;
+for (var i = 0;i < length1-1; i++)
+{
+fear_level=fear_level+Number(JSON.stringify(data[i].faceAttributes.emotion.fear));
+}
+html=html+"<b> Fear Level</b>: "+(Math.round((fear_level/length1)*100000)/100000)+"<br> <progress id='file' value='"+(Math.round((fear_level/length1)*100000)/100000)+"' min='0' max='1'> </progress><br><br>";
+var neutral_level=0;
+for (var i = 0;i < length1; i++)
+{
+neutral_level=neutral_level+Number(JSON.stringify(data[i].faceAttributes.emotion.neutral));
+}
+html=html+"<b> Neutral Level</b>: "+(Math.round((neutral_level/length1)*100000)/100000)+"<br> <progress id='file' value='"+(Math.round((neutral_level/length1)*100000)/100000)+"' min='0' max='1'> </progress><br><br>";
+var sadness_level=0;
+for (var i = 0;i < length1; i++)
+{
+sadness_level=sadness_level+Number(JSON.stringify(data[i].faceAttributes.emotion.sadness));
+}
+html=html+"<b> Sadness Level</b>: "+(Math.round((sadness_level/length1)*100000)/100000)+"<br> <progress id='file' value='"+(Math.round((sadness_level/length1)*100000)/100000)+"' min='0' max='1'> </progress><br><br>";
+var surprise_level=0;
+for (var i = 0;i < length1; i++)
+{
+surprise_level=surprise_level+Number(JSON.stringify(data[i].faceAttributes.emotion.surprise));
+}
+html=html+"<b> Surprise Level</b>: "+(Math.round((surprise_level/length1)*100000)/100000)+"<br> <progress id='file' value='"+(Math.round((surprise_level/length1)*100000)/100000)+"' min='0' max='1'> </progress><br><br>";
+var glasses_level=0;
+for (var i = 0;i < length1; i++)
+{
+if(JSON.stringify(data[i].faceAttributes.glasses).replace(/"/g, "")== 'ReadingGlasses')
+{
+glasses_level=glasses_level+1;
+};
+}
+html=html+"<b> Wearing Glasses</b>: "+glasses_level+"<br> <progress id='file' value='"+(Math.round((glasses_level/length1)*100000)/100000)+"' min='0' max='1'> </progress></pre></p>";
+
+var male=0;
+var female=0;
+for (var i = 0;i < length1; i++)
+{
+if(JSON.stringify(data[i].faceAttributes.gender).replace(/"/g, "")== 'male')
+{
+male=male+1;
+}
+else
+{
+female=female+1;
+};
+}
+var height=0;
+if(male>female)
+{
+height=male*12;
+}
+else
+{
+height=female*12;
+}
+html=html+"<p><b><u>Participants Consent</u></b><br> <table rules='none'><tr><td font-size='6px'>Bradley Meyer</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Michale Robbin</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Carlos Snares</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Enric Dosio</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Jhon Snares</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Joseph Dosni</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Zanifer Emily</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Kuleswar Sitaraman</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Henrey Gabriel</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Alex Manuel</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>George Mardy</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Mario Saule</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Alan Snappy</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Maria Foster</td><td bgcolor='green'>YES</td></tr><tr><td font-size='7px'>Steven King</td><td bgcolor='green'>YES</td></tr></table></p></table></td></tr></table>";
+
+html=html+"</body>";
+
+
+			div.innerHTML=html;
+			//div.innerHTML=`${txt}`;
+            //div.innerHTML=Array.isArray(data);
+        })
+        .catch(error => console.log('error:', error));
+    </script>
+  </body>
+</html>
